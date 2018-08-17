@@ -806,9 +806,10 @@ def main():
     config = ConfigParser(config_file)
     config.load()
 
+    found = False
+
     results = config.search_host(host)
     if results:
-        found = False
 
         for h in results:
             if h['host'] != host:
