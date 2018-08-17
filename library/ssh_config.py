@@ -687,6 +687,8 @@ def change_host(options, **kwargs):
     options = copy.deepcopy(options)
     changed = False
     for k, v in kwargs.items():
+        k = k.lower()
+
         if '_' in k:
           k = k.replace('_', '')
 
