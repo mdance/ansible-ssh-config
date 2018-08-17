@@ -800,6 +800,9 @@ def main():
     results = config.search_host(host)
     if results:
         for h in results:
+            if h['host'] != host:
+                continue
+
             # Anything to remove?
             if state == 'absent':
                 config_changed = True
