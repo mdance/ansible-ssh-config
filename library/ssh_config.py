@@ -808,9 +808,13 @@ def main():
 
     results = config.search_host(host)
     if results:
+        found = False
+
         for h in results:
             if h['host'] != host:
                 continue
+
+            found = True
 
             # Anything to remove?
             if state == 'absent':
@@ -830,8 +834,9 @@ def main():
                             'new': options,
                         }
                     })
+
     # Anything to add?
-    elif state == 'present':
+    if not found and state == 'present':
         changed, options = change_host(dict(), **args)
 
         if changed:
