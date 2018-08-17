@@ -706,8 +706,17 @@ def change_host(options, **kwargs):
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            state=dict(default='present', choices=['present', 'absent']),
-            host=dict(required=True, type='str'),
+            state=dict(
+                default='present',
+                choices=[
+                    'present',
+                    'absent'
+                ]
+            ),
+            host=dict(
+                required=True,
+                type='str'
+            ),
             hostname=dict(type='str'),
             port=dict(type='str'),
             remote_user=dict(type='str'),
