@@ -63,6 +63,9 @@ options:
     description:
       - Sets the ProxyCommand option.
     required: false
+  extra:
+    description:
+      - Provides any extra configuration directives
 '''
 
 EXAMPLES = '''
@@ -715,6 +718,22 @@ def main():
                 default=None,
                 choices=['yes', 'no', 'ask']
             ),
+            extra=dict(
+                type='dict',
+                elements='dict'
+                """
+                options=dict(
+                    ip_protocol=dict(
+                        required=True,
+                        type='str'
+                    ),
+                    ports=dict(
+                        type='list',
+                        elements='str'
+                    )
+                )
+                """
+            ),
         ),
         supports_check_mode=True
     )
@@ -761,6 +780,17 @@ def main():
             module.fail_json(
                 msg='IdentityFile "{0}" does not exist'.format(identity_file)
             )
+
+    extra = module.params.get('extra')
+
+    if extra:
+        for key in extra:
+            if key not in SSH_KEYWORDS:
+                module.fail_json(
+                    msg='Unrecognized SSH keyword "{0}"'.format(key)
+                )
+            else:
+                args[key] = extra[key]
 
     config = ConfigParser(config_file)
     config.load()
